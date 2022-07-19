@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { getManager, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { ContactInfo } from './entities/contact-info-entity';
 import { Employee } from './entities/employee.entity';
 import { Meeting } from './entities/meeting.entity';
@@ -52,7 +52,30 @@ export class AppService {
     await this.employeeRepository.save(macai);
   }
 
-  getHello(): string {
-    return 'Hello World!';
+  getEmployeeById(id: number) {
+    // return this.employeeRepository.findOne({
+    //   relations: [
+    //     'contactInfo',
+    //     'manager',
+    //     'directReports',
+    //     'tasks',
+    //     'meetings',
+    //   ],
+    //   where: { id },
+    // });
+
+    return this.employeeRepository
+      .createQueryBuilder('employee')
+      .leftJoinAndSelect('employee.contactInfo', 'contactInfo')
+      .leftJoinAndSelect('employee.manager', 'manager')
+      .leftJoinAndSelect('employee.directReports', 'directReports')
+      .leftJoinAndSelect('employee.tasks', 'tasks')
+      .leftJoinAndSelect('employee.meetings', 'meetings')
+      .where('employee.id = :employeeId', { employeeId: id })
+      .getOne();
+  }
+
+  deleteEmployee(id: number) {
+    return this.employeeRepository.delete(id);
   }
 }
