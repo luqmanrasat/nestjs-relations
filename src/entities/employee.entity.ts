@@ -1,6 +1,7 @@
 import {
   Column,
   Entity,
+  ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -15,6 +16,14 @@ export class Employee {
 
   @Column()
   name: string;
+
+  @ManyToOne(() => Employee, (employee) => employee.directReports, {
+    onDelete: 'SET NULL',
+  })
+  manager: Employee;
+
+  @OneToMany(() => Employee, (employee) => employee.manager)
+  directReports: Employee[];
 
   @OneToOne(() => ContactInfo, (contactInfo) => contactInfo.employee)
   contactInfo: ContactInfo;
