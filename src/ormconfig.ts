@@ -9,6 +9,7 @@ const config: PostgresConnectionOptions = {
   password: 'pass123',
   entities: ['dist/**/*.entity.js'],
   synchronize: false,
+  migrations: ['dist/db/*.js'],
   logging: true,
 };
 

@@ -8,7 +8,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { ContactInfo } from './contact-info-entity';
+import { ContactInfo } from './contact-info.entity';
 import { Meeting } from './meeting.entity';
 import { Task } from './task.entity';
 
